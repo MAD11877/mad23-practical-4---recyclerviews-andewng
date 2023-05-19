@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ListActivity extends AppCompatActivity {
-    private ArrayList<User> userList= new ArrayList<>();
+    ArrayList<User> usersList= new ArrayList<>();
+
     private RecyclerViewClickListener listener;
 
     String title ="List Activity";
@@ -37,6 +38,8 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        Log.v(title,"On create");
+
 
 
 
@@ -54,7 +57,7 @@ public class ListActivity extends AppCompatActivity {
         txt = findViewById(R.id.textView);
         builder = new AlertDialog.Builder(ListActivity.this);
         builder.setTitle("User profile");
-        builder.setMessage(userList.get(pos).getName()+generateNO());
+        builder.setMessage(usersList.get(pos).getName()+generateNO());
         builder.setPositiveButton("View", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -62,9 +65,9 @@ public class ListActivity extends AppCompatActivity {
                 RandomNum=generateNO();
                 Intent newAct = new Intent(ListActivity.this,MainActivity.class);
                 newAct.putExtra("randomNumber",RandomNum);
-                newAct.putExtra("username",userList.get(pos).getName());
-                newAct.putExtra("desc",userList.get(pos).getDescription());
-                newAct.putExtra("followed",userList.get(pos).getFollowed());
+                newAct.putExtra("username",usersList.get(pos).getName());
+                newAct.putExtra("desc",usersList.get(pos).getDescription());
+                newAct.putExtra("followed",usersList.get(pos).getFollowed());
                 startActivity(newAct);
 
 
@@ -81,93 +84,23 @@ public class ListActivity extends AppCompatActivity {
     }
     @Override
     protected void onResume(){
-        userList.add(new User("Abel","hello",generateNO(),true));
-        userList.add( new User("Ben","hi", generateNO(),true));
-        userList.add( new User("Cassie","bye",generateNO(),false));
-        userList.add( new User("Damian","131313",generateNO(),false));
-        userList.add( new User("Erik","12345",generateNO(),false));
-        userList.add( new User("Terry","145",generateNO(),true));
-        userList.add( new User("Wendy","13334",generateNO(),true));
-        userList.add( new User("Andrew","28026",generateNO(),false));
-        userList.add( new User("Xq","670067",generateNO(),true));
-        userList.add( new User("Miki","260028",generateNO(),false));
-        userList.add(new User("Yves","545454",generateNO(),true));
-        userList.add(new User("Marcus","25679",generateNO(),true));
-        userList.add( new User("Isaac","88888",generateNO(),false));
-        userList.add( new User("Daniel","78901",generateNO(),true));
-        userList.add(new User("Jaden","600069",generateNO(),false));
-        userList.add( new User("Name","122233",generateNO(),true));
-        userList.add( new User("Harry","009001",generateNO(),false));
-        userList.add( new User("Oompa","00701",generateNO(),false));
-        userList.add( new User("Salah","29013",generateNO(),false));
-        userList.add( new User("Kevin","170115",generateNO(),false));
-
-
         super.onResume();
         Log.v(title,"On resume");
-
+        CreateUser();
+        Log.v(title,"Create user");
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
 
         setOnClickListener();
-        BrandsAdapter mAdapter = new BrandsAdapter(userList);
+        myAdapter mAdapter = new myAdapter(usersList);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
+
+
     }
-    public class BrandViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView nametxt;
-        TextView destxt;
-
-        public BrandViewHolder(View itemView){
-            super(itemView);
-            nametxt=itemView.findViewById(R.id.textView3);
-            destxt=itemView.findViewById(R.id.textView4);
-            itemView.setOnClickListener(this);
-
-        }
-
-        @Override
-        public void onClick(View v) {
-            listener.onClick(itemView,getAdapterPosition());
-
-        }
-    }
-   public class BrandsAdapter extends
-           RecyclerView.Adapter<BrandViewHolder>{
-
-
-
-        public BrandsAdapter(ArrayList<User>userList) {
-
-        }
-       @NonNull
-       @Override
-       public BrandViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-           View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_items,
-                   parent,
-                   false);
-           return new BrandViewHolder(item);
-
-       }
-
-       @Override
-       public void onBindViewHolder(@NonNull BrandViewHolder holder, int position) {
-        String name = userList.get(position).getName();
-        String desc = userList.get(position).getDescription();
-        holder.nametxt.setText(name);
-        holder.destxt.setText("Description "+desc);
-
-       }
-
-       @Override
-       public int getItemCount() {
-           return userList.size();
-       }
-
-   }
    private void setOnClickListener(){
         listener = new RecyclerViewClickListener() {
             @Override
@@ -176,6 +109,18 @@ public class ListActivity extends AppCompatActivity {
             }
         };
    }
+   private void CreateUser()
+   {
+       usersList.clear();
+       int i=0;
+       Random random=new Random();
+       for (i=0;i<20;i++)
+       {
+       User user1 = new User("Name"+generateNO(),"Description"+generateNO(),generateNO(),random.nextBoolean());
+       usersList.add(user1);
+       }
+   }
+
 
    public interface RecyclerViewClickListener{
     void onClick(View v,int pos);
