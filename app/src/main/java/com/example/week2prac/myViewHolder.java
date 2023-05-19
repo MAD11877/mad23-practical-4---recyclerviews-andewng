@@ -18,13 +18,10 @@ public class myViewHolder extends RecyclerView.ViewHolder implements View.OnClic
         destxt=itemView.findViewById(R.id.textView4);
         imageView = itemView.findViewById(R.id.imageView2);
         itemView.setOnClickListener(this);
-
     }
-
     @Override
-    public void onClick(View v) {
+    public void onClick(View itemView) {
         listener.onClick(itemView,getAdapterPosition());
 
     }
 }
-

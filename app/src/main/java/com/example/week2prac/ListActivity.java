@@ -101,31 +101,30 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
-   private void setOnClickListener(){
+    private void setOnClickListener(){
         listener = new RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int pos) {
                 openAlertBox(pos);
             }
         };
-   }
-   private void CreateUser()
-   {
-       usersList.clear();
-       int i=0;
-       Random random=new Random();
-       for (i=0;i<20;i++)
-       {
-       User user1 = new User("Name"+generateNO(),"Description"+generateNO(),generateNO(),random.nextBoolean());
-       usersList.add(user1);
-       }
-   }
+    }
+    private void CreateUser()
+    {
+        int i=0;
+        Random random=new Random();
+        for (i=0;i<20;i++)
+        {
+            User user1 = new User("Name"+generateNO(),"Description"+generateNO(),generateNO(),random.nextBoolean());
+            usersList.add(user1);
+        }
+    }
 
 
-   public interface RecyclerViewClickListener{
-    void onClick(View v,int pos);
+    public interface RecyclerViewClickListener{
+        void onClick(View v,int pos);
 
-   }
+    }
 
 
 

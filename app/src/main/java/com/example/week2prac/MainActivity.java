@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
         Integer myReceive = myGetIntent.getIntExtra("randomNumber",0);
         String MyName=myGetIntent.getStringExtra("username");
         String MyDesc=myGetIntent.getStringExtra("desc");
-        Boolean MyFllw=myGetIntent.getBooleanExtra("followed",true);
+        Boolean MyFllw=myGetIntent.getExtras().getBoolean("followed");
+        Integer MyID = myGetIntent.getExtras().getInt("id");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.v(TITLE,"On create:");
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         txt.setText(MyName+ myReceive);
         TextView txtt =findViewById(R.id.textView2);
         txtt.setText(MyDesc);
-        myUser = new User("mickey","hello world",120,false);
+        myUser = new User(MyName,MyDesc,MyID,MyFllw);
         myButton=findViewById(R.id.button);
         if (myUser.followed)
         {
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         Log.v(TITLE, "On resume:");
+
         myButton=findViewById(R.id.button);
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
